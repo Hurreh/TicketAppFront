@@ -1,0 +1,25 @@
+.top-nav-items{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	align-content: stretch;
+	width: 100%;
+}
+.banner{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: start;
+	align-items: center;
+	align-content: stretch;
+	width: 20%;
+	div{
+		display: flex;
+		align-items: center;
+	}
+	div:last-child{
+		margin-left: 15px;
+	}
+}

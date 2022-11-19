@@ -1,4 +1,10 @@
 <app-topnav></app-topnav>
-<app-sidenav></app-sidenav>
+<app-sidenav>
+    <!-- Content projection is used to put loaded components from the <router-outlet> inside the <mat-sidenav-content>. 
+        This is achieved by placing <ng-content> selector inside the <app-sidenav>. The app then knows to put <router-outlet> selector where <ng-content> is.-->
+    <router-outlet>
+        
+    </router-outlet>
+</app-sidenav>
 
-<router-outlet></router-outlet>
+

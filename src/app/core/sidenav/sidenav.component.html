@@ -1,1 +1,26 @@
-<p>sidenav works!</p>
+<mat-sidenav-container class="main-container">
+    <mat-sidenav mode="side" opened *ngIf="isLoggingIn">
+        <!-- ADD ROUTING -->
+        <mat-list>
+            <mat-list-item>
+                <a>
+                    My Requests
+                </a>
+            </mat-list-item>
+            <mat-list-item>
+                <a>
+                    My Errors
+                </a>
+            </mat-list-item>
+            <mat-list-item>
+                <a>
+                    My Bug Reports
+                </a>
+            </mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <!-- Content projection. If we put any selector inside the app-sidenav selector it will be put in <ng-content> and not at the bottom of the template -->
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>
