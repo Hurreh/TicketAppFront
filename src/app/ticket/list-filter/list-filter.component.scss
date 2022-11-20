@@ -1,0 +1,22 @@
+.filter{
+    width: 100%;
+    border-style: groove;
+}
+.filterFields{
+    mat-form-field:first-child{
+        font-size: 12px;
+        width: 10%;
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    mat-form-field{
+        font-size: 12px;
+        width: 10%;
+        margin-right: 15px;
+    }
+    mat-form-field:last-child{
+        font-size: 12px;
+        width: 10%;
+        
+    }
+}

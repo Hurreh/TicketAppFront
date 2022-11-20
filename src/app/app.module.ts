@@ -7,6 +7,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 
+
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 
@@ -14,6 +15,7 @@ import { AppComponent } from './app.component';
 
 //Feature modules
 import { CoreModule } from './core/core.module';
+import { TicketModule } from './ticket/ticket.module';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({
@@ -25,13 +27,13 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
+    TicketModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
-    
+    MatButtonModule,
     
   ],
   providers: [],

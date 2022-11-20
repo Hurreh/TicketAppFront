@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  isLoggedIn: boolean = false;
-
+  public isLoggedIn = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 
   userLoggedIn(){
-    this.isLoggedIn = true;
-    console.log('loggedIn');
-    return of(this.isLoggedIn);
+    this.isLoggedIn.next(true);
   }
   userLoggedOut(){
-    this.isLoggedIn = false;
-    console.log('loggedOut');
-    return of(this.isLoggedIn);
+    this.isLoggedIn.next(false)
   }
 }
