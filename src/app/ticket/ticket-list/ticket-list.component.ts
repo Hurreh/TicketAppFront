@@ -38,8 +38,8 @@ export class TicketListComponent implements OnInit {
     }
     return filterFunction;
   }
-  loadData() {
-    this.tickets.data = this.ticketsService.getUserTickets(0,'all');
+  async loadData() {
+    this.tickets.data = await this.ticketsService.getUserTickets(0,'all');
     
   }
 

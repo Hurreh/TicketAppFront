@@ -3,19 +3,19 @@
         <!-- ADD ROUTING -->
         <mat-list>
             <mat-list-item>
-                <a>
+                <button mat-button [routerLink]="['/tickets-list', 'requests']">
                     My Requests
-                </a>
+                </button>
             </mat-list-item>
             <mat-list-item>
-                <a>
+                <button mat-button [routerLink]="['/tickets-list', 'errors']">
                     My Errors
-                </a>
+                </button>
             </mat-list-item>
             <mat-list-item>
-                <a>
+                <button mat-button [routerLink]="['/tickets-list', 'bug-reports']">
                     My Bug Reports
-                </a>
+                </button>
             </mat-list-item>
         </mat-list>
     </mat-sidenav>

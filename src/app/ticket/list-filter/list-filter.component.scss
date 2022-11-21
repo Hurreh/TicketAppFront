@@ -1,6 +1,7 @@
 .filter{
+    margin:15px 0px 15px 0px;
     width: 100%;
-    border-style: groove;
+    background-color: rgb(255, 255, 255);
 }
 .filterFields{
     mat-form-field:first-child{

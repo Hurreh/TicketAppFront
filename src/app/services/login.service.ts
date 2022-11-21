@@ -6,7 +6,7 @@ import { of, BehaviorSubject } from 'rxjs';
 })
 export class LoginService {
 
-  public isLoggedIn = new BehaviorSubject<boolean>(false);
+  public isLoggedIn = new BehaviorSubject<boolean>(true);
 
   constructor() { }
 
