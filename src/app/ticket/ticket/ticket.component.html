@@ -16,7 +16,9 @@
                 <div>
                     <mat-form-field>
                         <label>State</label>
-                        <mat-select></mat-select>
+                        <mat-select>
+                            <mat-option *ngFor="let st of states">{{st.stateName}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
             </div>
@@ -24,13 +26,15 @@
                 <div>
                     <mat-form-field>
                         <label>Requestor</label>
-                        <mat-select></mat-select>
+                        <input matInput>
                     </mat-form-field>
                 </div>
                  <div>
                     <mat-form-field>
                         <label>Priority</label>
-                        <mat-select></mat-select>
+                        <mat-select>
+                            <mat-option *ngFor="let prt of priorities">{{prt.priorityName}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
             </div>
@@ -38,13 +42,17 @@
                 <div>
                     <mat-form-field>
                         <label>Category</label>
-                        <mat-select></mat-select>
+                        <mat-select>
+                            <mat-option *ngFor="let cat of categories">{{cat.categoryName}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
                 <div>
                     <mat-form-field>
                         <label>Assigned To</label>
-                        <mat-select></mat-select>
+                        <mat-select>
+                            <mat-option *ngFor="let assigned of experts">{{assigned.expertName}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
             </div>
@@ -72,7 +80,7 @@
     </mat-card>
     
 </div>
-<div class="rows">
+<div class="rows" *ngIf="currentRoute != 'new-ticket'">
     <mat-card>
         <mat-card-header>
             <mat-card-title>

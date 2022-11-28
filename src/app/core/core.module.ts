@@ -6,6 +6,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
 import {RouterModule} from '@angular/router';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { TopnavComponent } from './topnav/topnav.component';
@@ -25,7 +26,8 @@ import { TopnavComponent } from './topnav/topnav.component';
     MatIconModule,
     MatListModule,
     RouterModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDividerModule
     
   ],
   exports:[

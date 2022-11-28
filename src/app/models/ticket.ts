@@ -2,9 +2,10 @@ export interface Ticket_DTO{
     serialNumber: string;
     requestor: number;
     assignee: number;
+    ticketType: number;
     startDate: Date;
     updateDate: Date;
-    updatedBy: string;
+    updatedBy: number;
     category: number;
     state: number;
     impact: number;

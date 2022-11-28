@@ -39,7 +39,6 @@ export class TicketListComponent implements OnInit {
     return filterFunction;
   }
   async loadData() {
-    this.tickets.data = await this.ticketsService.getUserTickets(0,'all');
     
   }
 
