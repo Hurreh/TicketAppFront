@@ -2,19 +2,31 @@
     <mat-sidenav mode="side" opened *ngIf="isLoggingIn">
         <!-- ADD ROUTING -->
         <mat-list>
+            <mat-list-item>                 
+                    User             
+            </mat-list-item>
             <mat-list-item>
                 <button mat-button [routerLink]="['/tickets-list', 'requests']">
                     My Requests
                 </button>
             </mat-list-item>
             <mat-list-item>
-                <button mat-button [routerLink]="['/tickets-list', 'errors']">
-                    My Errors
+                <button mat-button [routerLink]="['/tickets-list', 'incidents']">
+                    My Incidents
                 </button>
             </mat-list-item>
             <mat-list-item>
                 <button mat-button [routerLink]="['/tickets-list', 'bug-reports']">
                     My Bug Reports
+                </button>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>                 
+                Expert             
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button [routerLink]="['/tickets-list', 'all-tickets']">
+                    All Tickets
                 </button>
             </mat-list-item>
             <mat-divider></mat-divider>

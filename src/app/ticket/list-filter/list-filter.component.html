@@ -1,9 +1,57 @@
 <div class="filter">
-    <form [formGroup]="filterValuesGroup" class="filterFields">
+  <form [formGroup]="filterValuesGroup">
+    <div class="filter-fields">
       <mat-form-field>
-          <mat-label>Serial Number</mat-label>
-          <input matInput formControlName="serialNumber">
+        <mat-label>Serial Number</mat-label>
+        <input matInput formControlName="serialNumber">
       </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Short Desc</mat-label>
+        <input matInput formControlName="shortDesc">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Requestor</mat-label>
+        <input matInput formControlName="requestor">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Priority</mat-label>
+        <mat-select matNativeControl formControlName="priority">
+          <mat-option value="">--</mat-option>
+          <mat-option value="Low">Low</mat-option>
+          <mat-option value="Medium">Medium</mat-option>
+          <mat-option value="High">High</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>State</mat-label>
+        <mat-select matNativeControl formControlName="state">
+          <mat-option value="">--</mat-option>
+          <mat-option value="Low">Low</mat-option>
+          <mat-option value="Medium">Medium</mat-option>
+          <mat-option value="High">High</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Category</mat-label>
+        <mat-select matNativeControl formControlName="category">
+          <mat-option value="">--</mat-option>
+          <mat-option value="Low">Low</mat-option>
+          <mat-option value="Medium">Medium</mat-option>
+          <mat-option value="High">High</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Updated By</mat-label>
+        <input matInput formControlName="updatedBy">
+      </mat-form-field>
+    </div>
+    <div class="filter-fields">
       <mat-form-field>
         <mat-label>Submission Date Range</mat-label>
         <mat-date-range-input [rangePicker]="startDatePicker">
@@ -13,46 +61,6 @@
         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
         <mat-date-range-picker #startDatePicker></mat-date-range-picker>
-      </mat-form-field>
-      
-      <mat-form-field >
-          <mat-label>Short Desc</mat-label>
-          <input matInput formControlName="shortDesc">
-      </mat-form-field>
-      
-      <mat-form-field >
-        <mat-label>Requestor</mat-label>
-        <input matInput formControlName="requestor">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Priority</mat-label>
-        <mat-select matNativeControl formControlName="priority">
-          <mat-option value="">--</mat-option>
-          <mat-option value="0">Low</mat-option>
-          <mat-option value="1">Medium</mat-option>
-          <mat-option value="2">High</mat-option>          
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>State</mat-label>
-        <mat-select matNativeControl formControlName="state">
-          <mat-option value="">--</mat-option>
-          <mat-option value="0">Low</mat-option>
-          <mat-option value="1">Medium</mat-option>
-          <mat-option value="2">High</mat-option>          
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Category</mat-label>
-        <mat-select matNativeControl formControlName="category">
-          <mat-option value="">--</mat-option>
-          <mat-option value="0">Low</mat-option>
-          <mat-option value="1">Medium</mat-option>
-          <mat-option value="2">High</mat-option>          
-        </mat-select>
       </mat-form-field>
 
       <mat-form-field>
@@ -65,10 +73,6 @@
         <mat-datepicker-toggle matIconSuffix [for]="updateDatePicker"></mat-datepicker-toggle>
         <mat-date-range-picker #updateDatePicker></mat-date-range-picker>
       </mat-form-field>
-      
-      <mat-form-field >
-        <mat-label>Updated By</mat-label>
-        <input matInput formControlName="updatedBy">
-      </mat-form-field>
-    </form>
+    </div>
+  </form>
 </div>

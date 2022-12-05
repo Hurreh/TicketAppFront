@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  dictAddress:'http://localhost:5002/api/Dictionaries/'
+  dictAddress:'http://localhost:5002/api/Dictionaries/',
+  ticketsAddress:'http://localhost:5002/api/Tickets/',
+  authAddress:'http://localhost:5002/api/Auth/'
+
 };
 
 

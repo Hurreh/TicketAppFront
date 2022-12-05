@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Ticket_DTO } from 'src/app/models/ticket';
+import { Ticket, Ticket_DTO } from 'src/app/models/ticket';
 import { TicketsService } from 'src/app/services/tickets.service';
 import {MatTableDataSource} from '@angular/material/table'
 import { filterValues } from 'src/app/models/filter';
+import { ActivatedRoute } from '@angular/router';
+import { TicketsDataService } from 'src/app/services/data-services/tickets-data.service';
 
 @Component({
   selector: 'app-ticket-list',
@@ -11,16 +13,19 @@ import { filterValues } from 'src/app/models/filter';
 })
 export class TicketListComponent implements OnInit {
 
-  constructor(private ticketsService: TicketsService) { }
+  constructor(private ticketsService: TicketsService,
+              private ticketsDataService: TicketsDataService,
+              private route: ActivatedRoute) { }
 
-  public tickets = new MatTableDataSource<Ticket_DTO>();
+  public tickets = new MatTableDataSource<Ticket>();
   private filterValues!: filterValues;
+  private currentRoute: string | null = '';
 
-  public columnsToDisplay = ['serialNumber', 'startDate', 'shortDesc', 'requestor', 'priority', 'state', 'category', 'updateDate', 'updatedBy']
+  public columnsToDisplay = ['serialNumber','assignee', 'startDate', 'shortDesc', 'requestor', 'priority', 'state', 'category', 'updateDate', 'updatedBy']
 
   ngOnInit(): void {
 
-    this.loadData();
+    this.getCurrentRoute();
     this.initFilter();
     
   }
@@ -31,15 +36,65 @@ export class TicketListComponent implements OnInit {
       this.tickets.filterPredicate = this.createFilter()
     })
   }
-  createFilter(): (data: Ticket_DTO, filter: string) => boolean {
-    let filterFunction = (data: Ticket_DTO, filter: string): boolean => {
+  createFilter(): (data: Ticket, filter: string) => boolean {
+    let filterFunction = (data: Ticket, filter: string): boolean => {
       let filterValues = JSON.parse(filter)
-      return data.serialNumber.toLowerCase().indexOf(filterValues.serialNumber.toLowerCase()) !== -1 || filterValues.serialNumber == ''
+      return (data.serialNumber.toLowerCase().indexOf(filterValues.serialNumber.toLowerCase()) !== -1 || filterValues.serialNumber == '')
+          && (data.shortDesc.toLowerCase().indexOf(filterValues.shortDesc.toLowerCase()) !== -1 || filterValues.shortDesc == '')
+          && (data.requestor.toLowerCase().indexOf(filterValues.requestor.toLowerCase()) !== -1 || filterValues.requestor == '')
+          && (data.priority.toLowerCase() == filterValues.priority.toLowerCase() || filterValues.priority == '')
+          && (data.state.toLowerCase() == filterValues.state.toLowerCase() || filterValues.state == '')
+          && (data.category.toLowerCase() == filterValues.category.toLowerCase() || filterValues.category == '')
+          && (data.updatedBy.toLowerCase().indexOf(filterValues.updatedBy.toLowerCase()) !== -1 || filterValues.updatedBy == '')
     }
     return filterFunction;
   }
   async loadData() {
-    
+      const userId = localStorage.getItem('userId')
+      switch (this.currentRoute) {
+        case 'all-tickets':
+          this.ticketsDataService.getAllTickets()
+          .then(x=>{
+            this.convertDataToDisplay(x.result);       
+          })
+          break;
+        case 'requests':
+          this.ticketsDataService.getAllUserTicketsOfType(+userId!, 1)
+          .then(x=>{
+            this.convertDataToDisplay(x.result);       
+          })
+          break;
+        case 'incidents':
+          this.ticketsDataService.getAllUserTicketsOfType(+userId!, 2)
+          .then(x=>{
+            this.convertDataToDisplay(x.result);       
+          })
+          break;
+        case 'bug-reports':
+          this.ticketsDataService.getAllUserTicketsOfType(+userId!, 3)
+          .then(x=>{
+            this.convertDataToDisplay(x.result);       
+          })
+          break;
+        default:
+          break;
+      }
+  }
+
+  getCurrentRoute() {
+    this.route.paramMap.subscribe(params =>{
+      this.currentRoute = params.get('type')
+      this.tickets.data = []
+      this.loadData()
+    })
+  }
+
+  convertDataToDisplay(tickets: Ticket_DTO[]){
+    console.log(tickets);
+    this.ticketsService.convertDataToDisplay(tickets)
+      .then(dataToDisplay => {
+        this.tickets.data = [...dataToDisplay]
+      });
   }
 
 

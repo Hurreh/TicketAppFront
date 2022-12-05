@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule} from '@angular/router';
+import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { LoginComponent } from './login/login.component';
 
 
@@ -9,6 +10,7 @@ import { LoginComponent } from './login/login.component';
     {path:'login', component:LoginComponent},
     {path:'', redirectTo:'tickets-list', pathMatch:'full'},
     {path: 'tickets-list',
+     canActivate:[AuthGuardGuard],
       loadChildren : () =>
         import('./ticket/ticket.module').then(x=>x.TicketModule)
       }

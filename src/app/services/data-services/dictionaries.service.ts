@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom, map } from 'rxjs';
 import { ApiResult } from 'src/app/models/apiResult';
 import { Categories_DTO, Experts_DTO, Impact_DTO, Priority_DTO, States_DTO, TicketType_DTO } from 'src/app/models/dictionaries';
+import { User_DTO } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -87,6 +88,19 @@ export class DictionariesService {
 
   async getCategories(): Promise<ApiResult<Categories_DTO[]>>{
     const url = this.dictionariesAddress + `getcategories`;
+    const answer = await lastValueFrom(this.http
+      .get(url, {
+        headers:{
+          'Content-Type': 'application/json',
+          //'Access-Control-Allow-Origin': '*'
+        }
+      })
+      .pipe(map((result: any) => result))) 
+      
+      return answer;
+  }
+  async getUsers(): Promise<ApiResult<User_DTO[]>>{
+    const url = this.dictionariesAddress + `getusers`;
     const answer = await lastValueFrom(this.http
       .get(url, {
         headers:{

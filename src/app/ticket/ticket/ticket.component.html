@@ -1,22 +1,22 @@
-<div class="rows">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>
-                Ticket details
-            </mat-card-title>         
-        </mat-card-header>
-        <form>
+<form [formGroup]="ticketControlForm">
+    <div class="rows">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    Ticket details
+                </mat-card-title>
+            </mat-card-header>
             <div>
-                <div>
+                <div *ngIf="currentRoute != 'new-ticket'">
                     <mat-form-field>
-                        <label>Serial Number</label>
-                        <input matInput>
+                        <mat-label>Serial Number</mat-label>
+                        <input matInput formControlName="serialNumber">
                     </mat-form-field>
                 </div>
-                <div>
+                <div *ngIf="currentRoute != 'new-ticket'">
                     <mat-form-field>
-                        <label>State</label>
-                        <mat-select>
+                        <mat-label>State</mat-label>
+                        <mat-select formControlName="state">
                             <mat-option *ngFor="let st of states">{{st.stateName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -25,81 +25,89 @@
             <div>
                 <div>
                     <mat-form-field>
-                        <label>Requestor</label>
-                        <input matInput>
+                        <mat-label>Ticket Type</mat-label>
+                        <mat-select formControlName="ticketType">
+                            <mat-option *ngFor="let type of ticketTypes" [value]="type.id">{{type.type}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
-                 <div>
+            </div>
+            <div>
+                <div>
                     <mat-form-field>
-                        <label>Priority</label>
-                        <mat-select>
+                        <mat-label>Requestor</mat-label>
+                        <input matInput formControlName="requestor">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="currentRoute != 'new-ticket'">
+                    <mat-form-field>
+                        <mat-label>Priority</mat-label>
+                        <mat-select formControlName="priority">
                             <mat-option *ngFor="let prt of priorities">{{prt.priorityName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
             </div>
-            <div>          
+            <div>
                 <div>
                     <mat-form-field>
-                        <label>Category</label>
-                        <mat-select>
-                            <mat-option *ngFor="let cat of categories">{{cat.categoryName}}</mat-option>
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="category">
+                            <mat-option *ngFor="let cat of categories" [value]="cat.id">{{cat.categoryName}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div>
+                <div *ngIf="currentRoute != 'new-ticket'">
                     <mat-form-field>
-                        <label>Assigned To</label>
-                        <mat-select>
-                            <mat-option *ngFor="let assigned of experts">{{assigned.expertName}}</mat-option>
+                        <mat-label>Assigned To</mat-label>
+                        <mat-select formControlName="assignee">
+                            <mat-option *ngFor="let assigned of experts" [value]="assigned.id">{{assigned.expertName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
             </div>
-            <div class="description">          
+            <div class="description">
                 <div>
                     <mat-form-field>
-                        <label>Short Description</label>
-                        <input matInput>
+                        <mat-label>Short Description</mat-label>
+                        <input matInput formControlName="shortDesc">
                     </mat-form-field>
                 </div>
             </div>
-            <div class="description">          
+            <div class="description" *ngIf="currentRoute != 'new-ticket'">
                 <div>
                     <mat-form-field>
-                        <label>Description</label>
-                        <textarea matInput></textarea>
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="longDesc"></textarea>
                     </mat-form-field>
                 </div>
             </div>
-        </form>
-        <mat-card-actions align="end">
-            <button mat-button>Save</button>
-            <button mat-button>Resolve</button>
-        </mat-card-actions>
-    </mat-card>
-    
-</div>
-<div class="rows" *ngIf="currentRoute != 'new-ticket'">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>
-                Notes
-            </mat-card-title>         
-        </mat-card-header>
-        <form>
-            <div class="description">          
-                <div>
-                    <mat-form-field>
-                        <label>Work Notes</label>
-                        <textarea matInput></textarea>
-                    </mat-form-field>
+
+            <mat-card-actions align="end">
+                <button mat-button (click)="saveTicket()">Save</button>
+                <button mat-button *ngIf="currentRoute != 'new-ticket'">Resolve</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="rows" *ngIf="currentRoute != 'new-ticket'">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    Notes
+                </mat-card-title>
+            </mat-card-header>           
+                <div class="description">
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Work Notes</mat-label>
+                            <textarea matInput formControlName="notes"></textarea>
+                        </mat-form-field>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <mat-card-actions align="end">
-            <button mat-button>Save Notes</button>
-        </mat-card-actions>
-    </mat-card>
-    
-</div>
+            <mat-card-actions align="end">
+                <button mat-button>Save Notes</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</form>

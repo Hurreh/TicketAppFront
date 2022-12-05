@@ -1,23 +1,18 @@
-.filter{
-    margin:15px 0px 15px 0px;
-    width: 100%;
+.filter {
     background-color: rgb(255, 255, 255);
-}
-.filterFields{
-    mat-form-field:first-child{
-        font-size: 12px;
-        width: 10%;
-        margin-right: 15px;
-        margin-left: 15px;
-    }
-    mat-form-field{
-        font-size: 12px;
-        width: 10%;
-        margin-right: 15px;
-    }
-    mat-form-field:last-child{
-        font-size: 12px;
-        width: 10%;
+    margin: 0 0 5px 0;
+    padding: 20px 0 0 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: stretch;
+    width: 100%;
+    div.filter-fields{
         
+        mat-form-field{
+            margin: 0 5px 0 5px;
+        }
     }
 }

@@ -12,13 +12,17 @@ export class TopnavComponent implements OnInit {
   constructor(public logService: LoginService,
               public router: Router) { }
 
+  loggedUser: string = '';
   ngOnInit(): void {
+    
   }
 
 
 
   logOut(){
-    this.logService.userLoggedOut();
+    localStorage.clear();
+   
+    this.logService.isLoggedIn.next(false)
     this.router.navigate(['/login']);
   }
 }

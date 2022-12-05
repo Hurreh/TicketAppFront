@@ -4,7 +4,7 @@
     margin-top: 15px;
     mat-card{
         width: 90%;
-        form{
+        
             div{
                 display: flex;
                 flex-direction: row;
@@ -12,9 +12,10 @@
                 justify-content: space-around;
                 align-items: center;
                 align-content: stretch;
+                width: 100%;
                 div{
                     mat-form-field{
-                        width: 30vw;
+                        width: 80%;
                     }
                 }
                 
@@ -34,7 +35,7 @@
                 }
                 
             }
-        }
+        
     }
     
     

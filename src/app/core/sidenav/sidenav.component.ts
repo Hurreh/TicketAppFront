@@ -10,11 +10,14 @@ export class SidenavComponent implements OnInit {
 
   constructor(public logInService: LoginService) { }
 
-  isLoggingIn : boolean = true;
+  isLoggingIn : boolean = false;
 
   ngOnInit(): void {
     //Property in the service. Changes based on whether user is logged in or not.
-    this.logInService.isLoggedIn.subscribe(x=>this.isLoggingIn = x)
+    this.logInService.isLoggedIn.subscribe(x=>{
+      this.isLoggingIn = x
+      console.log(x);
+    })
     }
   }
 

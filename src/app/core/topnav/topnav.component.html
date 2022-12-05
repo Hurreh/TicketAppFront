@@ -9,9 +9,15 @@
             </div>
         </div>
         <div>
-            <a (click)="logOut()">
-                <mat-icon>logout</mat-icon>
-            </a>
+            <div class="top-nav-items">
+                <div *ngIf="loggedUser != ''">
+                    <h5>Logged in as  {{loggedUser}}</h5>
+                </div>
+                <button mat-button (click)="logOut()">
+                    <mat-icon>logout</mat-icon>
+                </button>
+            </div>
+            
             
         </div>
     </div>

@@ -5,6 +5,7 @@ export interface Categories_DTO{
 
 export interface Experts_DTO{
     id: number;
+    userId: number;
     expertName:string;
 }
 
@@ -27,5 +28,10 @@ export interface States_DTO{
 export interface TicketType_DTO{
     id: number;
     type:string;
+    
+}
+export interface UserRolesDic_DTO{
+    id: number;
+    roleName:string;
     
 }

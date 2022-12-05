@@ -15,3 +15,21 @@ export interface Ticket_DTO{
     notes: string;
 
 }
+
+export interface Ticket{
+    serialNumber: string;
+    requestor: string;
+    assignee: string;
+    ticketType: string;
+    startDate: Date;
+    updateDate: Date;
+    updatedBy: string;
+    category: string;
+    state: string;
+    impact: string;
+    priority: string;
+    shortDesc: string;
+    longDesc: string;
+    notes: string;
+
+}
