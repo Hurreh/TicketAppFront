@@ -46,6 +46,8 @@ export class TicketListComponent implements OnInit {
           && (data.state.toLowerCase() == filterValues.state.toLowerCase() || filterValues.state == '')
           && (data.category.toLowerCase() == filterValues.category.toLowerCase() || filterValues.category == '')
           && (data.updatedBy.toLowerCase().indexOf(filterValues.updatedBy.toLowerCase()) !== -1 || filterValues.updatedBy == '')
+          //&& ((data.updateDate >=  filterValues.updateDateBegin) && (data.updateDate <=  filterValues.updateDateEnd) || (filterValues.updateDateBegin && filterValues.updateDateEnd))
+         
     }
     return filterFunction;
   }
@@ -76,6 +78,18 @@ export class TicketListComponent implements OnInit {
             this.convertDataToDisplay(x.result);       
           })
           break;
+          case 'assigned-tickets':
+          this.ticketsDataService.getAllExpertTickets(+userId!)
+          .then(x=>{
+            this.convertDataToDisplay(x.result);       
+          })
+          break;
+          case 'unassigned-tickets':
+          this.ticketsDataService.getAllUnassignedTickets()
+          .then(x=>{
+            this.convertDataToDisplay(x.result);       
+          })
+          break;
         default:
           break;
       }
@@ -90,9 +104,10 @@ export class TicketListComponent implements OnInit {
   }
 
   convertDataToDisplay(tickets: Ticket_DTO[]){
-    console.log(tickets);
+    
     this.ticketsService.convertDataToDisplay(tickets)
       .then(dataToDisplay => {
+        console.log(dataToDisplay)
         this.tickets.data = [...dataToDisplay]
       });
   }

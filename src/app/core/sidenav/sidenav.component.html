@@ -21,20 +21,33 @@
                 </button>
             </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>                 
-                Expert             
-            </mat-list-item>
-            <mat-list-item>
-                <button mat-button [routerLink]="['/tickets-list', 'all-tickets']">
-                    All Tickets
-                </button>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-                <button mat-button [routerLink]="['/ticket', 'new-ticket']">
-                    Submit New Ticket
-                </button>
-            </mat-list-item>
+            <div *ngIf="isExpert">
+                <mat-list-item>                 
+                    Expert             
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-button [routerLink]="['/tickets-list', 'all-tickets']">
+                        All Tickets
+                    </button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-button [routerLink]="['/tickets-list', 'assigned-tickets']">
+                        My Assigned Tickets
+                    </button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-button [routerLink]="['/tickets-list', 'unassigned-tickets']">
+                        Unassigned Tickets
+                    </button>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <button mat-button [routerLink]="['/ticket', 'new-ticket']">
+                        Submit New Ticket
+                    </button>
+                </mat-list-item>
+            </div>
+            
         </mat-list>
     </mat-sidenav>
     <mat-sidenav-content>

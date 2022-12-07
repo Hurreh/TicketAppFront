@@ -42,6 +42,33 @@ export class TicketsDataService {
       
       return answer;
   }
+  async getAllUnassignedTickets(): Promise<ApiResult<Ticket_DTO[]>>{
+    const url = this.ticketsAddress + `getallunassignedtickets`;
+    const answer = await lastValueFrom(this.http
+      .get(url, {
+        headers:{
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
+      })
+      .pipe(map((result: any) => result))) 
+      
+      return answer;
+  }
+  async getAllExpertTickets(expertId: number): Promise<ApiResult<Ticket_DTO[]>>{
+    const url = this.ticketsAddress + `getallexperttickets`;
+    const answer = await lastValueFrom(this.http
+      .get(url, {
+        headers:{
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        params:{expertId: expertId}
+      })
+      .pipe(map((result: any) => result))) 
+      
+      return answer;
+  }
   async getAllUserTicketsOfType(userId: number, ticketType: number): Promise<ApiResult<Ticket_DTO[]>>{
     const url = this.ticketsAddress + `getalluserticketsoftype`;
     const answer = await lastValueFrom(this.http
@@ -64,6 +91,49 @@ export class TicketsDataService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
         }
+      })
+      .pipe(map((result: any) => result))) 
+      
+      return answer;
+  }
+  async updateTicket(ticket: Ticket_DTO): Promise<boolean>{
+    const url = this.ticketsAddress + `updateticket`;
+    const answer = await lastValueFrom(this.http
+      .post(url,ticket, {
+        headers:{
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
+      })
+      .pipe(map((result: any) => result))) 
+      
+      return answer;
+  }
+  async updateNotes(serialNumber: string, notes: string): Promise<boolean>{
+    const url = this.ticketsAddress + `updatenotes`;
+    
+    const answer = await lastValueFrom(this.http
+      .get(url, {
+        headers:{
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        params:{serialNumber: serialNumber, notes: notes}
+      })
+      .pipe(map((result: any) => result))) 
+      
+      return answer;
+  }
+  async changeState(serialNumber: string, state: number): Promise<boolean>{
+    const url = this.ticketsAddress + `changestate`;
+    
+    const answer = await lastValueFrom(this.http
+      .get(url, {
+        headers:{
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        params:{serialNumber: serialNumber, state:state}
       })
       .pipe(map((result: any) => result))) 
       

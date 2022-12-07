@@ -10,14 +10,14 @@
                 <div *ngIf="currentRoute != 'new-ticket'">
                     <mat-form-field>
                         <mat-label>Serial Number</mat-label>
-                        <input matInput formControlName="serialNumber">
+                        <input matInput formControlName="serialNumber" readonly>
                     </mat-form-field>
                 </div>
                 <div *ngIf="currentRoute != 'new-ticket'">
                     <mat-form-field>
                         <mat-label>State</mat-label>
                         <mat-select formControlName="state">
-                            <mat-option *ngFor="let st of states">{{st.stateName}}</mat-option>
+                            <mat-option *ngFor="let st of states" >{{st.stateName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -36,7 +36,7 @@
                 <div>
                     <mat-form-field>
                         <mat-label>Requestor</mat-label>
-                        <input matInput formControlName="requestor">
+                        <input matInput formControlName="requestor" readonly>
                     </mat-form-field>
                 </div>
                 <div *ngIf="currentRoute != 'new-ticket'">
@@ -62,7 +62,7 @@
                     <mat-form-field>
                         <mat-label>Assigned To</mat-label>
                         <mat-select formControlName="assignee">
-                            <mat-option *ngFor="let assigned of experts" [value]="assigned.id">{{assigned.expertName}}</mat-option>
+                            <mat-option *ngFor="let assigned of experts" [value]="assigned.userId">{{assigned.expertName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -71,7 +71,7 @@
                 <div>
                     <mat-form-field>
                         <mat-label>Short Description</mat-label>
-                        <input matInput formControlName="shortDesc">
+                        <input matInput formControlName="shortDesc" [readonly]="currentRoute != 'new-ticket'">
                     </mat-form-field>
                 </div>
             </div>
@@ -84,9 +84,11 @@
                 </div>
             </div>
 
-            <mat-card-actions align="end">
-                <button mat-button (click)="saveTicket()">Save</button>
-                <button mat-button *ngIf="currentRoute != 'new-ticket'">Resolve</button>
+            <mat-card-actions align="end">             
+                <button mat-button *ngIf="currentRoute != 'new-ticket'" (click)="cancelTicket()">Cancel</button>
+                <button mat-button *ngIf="currentRoute != 'new-ticket'" (click)="resolveTicket()">Resolve</button>
+                <button mat-button *ngIf="currentRoute != 'new-ticket'" (click)="updateTicket()">Update</button>
+                <button mat-button *ngIf="currentRoute == 'new-ticket'" (click)="saveNewTicket()">Save</button>
             </mat-card-actions>
         </mat-card>
     </div>
@@ -106,7 +108,7 @@
                     </div>
                 </div>
             <mat-card-actions align="end">
-                <button mat-button>Save Notes</button>
+                <button mat-button (click)="saveNotes()">Save Notes</button>
             </mat-card-actions>
         </mat-card>
     </div>

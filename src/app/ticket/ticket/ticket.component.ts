@@ -69,10 +69,9 @@ export class TicketComponent implements OnInit {
       await this.ticketsDataService
       .getTicket(this.currentRoute!)
       .then(x=>{
-        console.log(x.result)
         this.ticketControlForm.patchValue(x.result)
         this.ticketControlForm.controls['requestor'].setValue(this.users.find(y=>y.id == x.result.requestor)?.fullName ?? "")
-        console.log(this.ticketControlForm)
+        
       })    
     }
     
@@ -97,13 +96,35 @@ export class TicketComponent implements OnInit {
     
     
   }
-  saveTicket(){
+  saveNewTicket(){
     if(this.ticketControlForm.valid){
       this.ticketControlForm.controls['startDate'].setValue(new Date())    
       this.ticket = Object.assign(this.ticket, this.ticketControlForm.value)     
       this.ticket.requestor = +localStorage.getItem('userId')!
       this.ticketsDataService.saveTicket(this.ticket);
     }
+  }
+  updateTicket(){
+    if(this.ticketControlForm.valid){ 
+      this.ticket = Object.assign(this.ticket, this.ticketControlForm.value)     
+      this.ticketsDataService.saveTicket(this.ticket);
+    }
+  }
+  resolveTicket(){
+    const resolveId = this.states.find(x=>x.stateName == 'Resolved')!.id ?? ''
+    const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
+    this.ticketsDataService.changeState(serialNumber, resolveId);
+
+  }
+  cancelTicket(){
+    const cancelId = this.states.find(x=>x.stateName == 'Canceled')!.id ?? ''
+    const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
+    this.ticketsDataService.changeState(serialNumber, cancelId);
+  }
+  saveNotes(){
+    const notes = this.ticketControlForm.controls['notes'].value;
+    const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
+    this.ticketsDataService.updateNotes(serialNumber, notes);
   }
 
 }
