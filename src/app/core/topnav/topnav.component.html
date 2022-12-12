@@ -1,11 +1,11 @@
-<mat-toolbar >
+<mat-toolbar class="top-nav">
     <div class="top-nav-items">
         <div class="banner">
             <div>
-                <mat-icon>help</mat-icon>
+                <mat-icon class="white">help</mat-icon>
             </div>
             <div>
-                <h4>Ticket App</h4>
+                <button mat-button class="white" [routerLink]="['/tickets-list', 'requests']" disableRipple="true"><h4>Ticket App</h4></button >
             </div>
         </div>
         <div>
@@ -14,7 +14,7 @@
                     <h5>Logged in as  {{loggedUser}}</h5>
                 </div>
                 <button mat-button (click)="logOut()">
-                    <mat-icon>logout</mat-icon>
+                    <mat-icon class="white">logout</mat-icon>
                 </button>
             </div>
             

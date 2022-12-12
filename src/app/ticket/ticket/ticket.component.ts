@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Categories_DTO, Experts_DTO, Priority_DTO, States_DTO, TicketType_DTO } from 'src/app/models/dictionaries';
 import { Ticket_DTO } from 'src/app/models/ticket';
@@ -7,6 +8,7 @@ import { User_DTO } from 'src/app/models/user';
 import { DictionariesService } from 'src/app/services/data-services/dictionaries.service';
 import { TicketsDataService } from 'src/app/services/data-services/tickets-data.service';
 import { TicketsService } from 'src/app/services/tickets.service';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-ticket',
@@ -18,7 +20,8 @@ export class TicketComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private dictionariesService: DictionariesService,
               private ticketsService: TicketsService,
-              private ticketsDataService: TicketsDataService) { }
+              private ticketsDataService: TicketsDataService,
+              private dialog: MatDialog) { }
               
 
   public currentRoute: string | null = '';
@@ -110,16 +113,18 @@ export class TicketComponent implements OnInit {
       this.ticketsDataService.saveTicket(this.ticket);
     }
   }
-  resolveTicket(){
-    const resolveId = this.states.find(x=>x.stateName == 'Resolved')!.id ?? ''
-    const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
-    this.ticketsDataService.changeState(serialNumber, resolveId);
-
+  //two exact same methods. Merge
+  async resolveTicket(){
+    console.log('resolved')
+      const resolveId = this.states.find(x=>x.stateName == 'Resolved')!.id ?? ''
+      const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
+      //this.ticketsDataService.changeState(serialNumber, resolveId);
   }
-  cancelTicket(){
-    const cancelId = this.states.find(x=>x.stateName == 'Canceled')!.id ?? ''
-    const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
-    this.ticketsDataService.changeState(serialNumber, cancelId);
+  async cancelTicket(){
+      console.log('canceled')
+      const cancelId = this.states.find(x=>x.stateName == 'Canceled')!.id ?? ''
+      const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
+      //this.ticketsDataService.changeState(serialNumber, cancelId);    
   }
   saveNotes(){
     const notes = this.ticketControlForm.controls['notes'].value;
@@ -127,4 +132,32 @@ export class TicketComponent implements OnInit {
     this.ticketsDataService.updateNotes(serialNumber, notes);
   }
 
+
+  openDialog(data: Object, type: string){
+    this.dialog.open(ConfirmDialogComponent, {
+      data: data,
+      disableClose: true
+    })
+    .afterClosed().subscribe(x=>{
+      if(x){
+        switch (type) {
+          case 'cancel':
+            this.cancelTicket()
+            break;
+          case 'resolve':
+            this.resolveTicket()
+            break; 
+          case 'update':
+            this.updateTicket()
+            break;
+          case 'saveNotes':
+            this.saveNotes()
+            break;
+          default:
+            break;
+        }
+      } 
+      
+    })
+  }
 }

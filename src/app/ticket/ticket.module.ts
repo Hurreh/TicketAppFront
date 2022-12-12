@@ -12,10 +12,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { ListFilterComponent } from './list-filter/list-filter.component';
 import { TicketComponent } from './ticket/ticket.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { TicketComponent } from './ticket/ticket.component';
   [
     TicketListComponent,
     ListFilterComponent,
-    TicketComponent
+    TicketComponent,
+    ConfirmDialogComponent
   ],
   providers:[
     MatDatepickerModule
@@ -40,6 +43,7 @@ import { TicketComponent } from './ticket/ticket.component';
     MatSelectModule,
     MatCardModule,
     MatButtonModule,
+    MatDialogModule,
     RouterModule.forChild([
       {path:'', component:TicketListComponent},
       {path:':type', component:TicketListComponent},
