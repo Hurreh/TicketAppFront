@@ -20,6 +20,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { TicketModule } from './ticket/ticket.module';
 import { LoginComponent } from './login/login.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { LoginComponent } from './login/login.component';
     MatInputModule,
     MatButtonModule,
     HttpClientModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule
     

@@ -20,7 +20,7 @@
                     <mat-form-field>
                         <mat-label>State</mat-label>
                         <mat-select formControlName="state">
-                            <mat-option *ngFor="let st of states" >{{st.stateName}}</mat-option>
+                            <mat-option *ngFor="let st of states" [value]="st.id">{{st.stateName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -45,8 +45,8 @@
                 <div *ngIf="currentRoute != 'new-ticket'">
                     <mat-form-field>
                         <mat-label>Priority</mat-label>
-                        <mat-select formControlName="priority">
-                            <mat-option *ngFor="let prt of priorities">{{prt.priorityName}}</mat-option>
+                        <mat-select formControlName="priority" >
+                            <mat-option *ngFor="let prt of priorities" [value]="prt.severity">{{prt.priorityName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>

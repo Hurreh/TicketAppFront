@@ -51,5 +51,12 @@ export class ListFilterComponent implements OnInit {
     updatedBy: new FormControl(''),
   })
 
-  
+  clearStartDate(){
+    this.filterValuesGroup.controls['startDateBegin'].setValue('');
+    this.filterValuesGroup.controls['startDateEnd'].setValue('');
+  }
+  clearUpdateDate(){
+    this.filterValuesGroup.controls['updateDateBegin'].setValue('');
+    this.filterValuesGroup.controls['updateDateEnd'].setValue('');
+  }
 }

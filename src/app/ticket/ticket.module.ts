@@ -13,6 +13,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
+
+
 
 import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { ListFilterComponent } from './list-filter/list-filter.component';
@@ -44,8 +51,12 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
     RouterModule.forChild([
-      {path:'', component:TicketListComponent},
+      {path:'', redirectTo:'requests', pathMatch:'full'},
       {path:':type', component:TicketListComponent},
       {path:'ticket/:ticket', component:TicketComponent}
     ])

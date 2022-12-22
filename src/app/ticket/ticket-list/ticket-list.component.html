@@ -1,57 +1,68 @@
 
 <app-list-filter></app-list-filter>
-<table class='ticketsTable'mat-table [dataSource]="tickets">
+<div class="center" *ngIf="listLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!listLoading">
     
-    <ng-container matColumnDef="serialNumber">
-        <th mat-header-cell *matHeaderCellDef> Serial Number </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.serialNumber}} </td>
-    </ng-container>
+    <table class='ticketsTable' mat-table [dataSource]="tickets">
+        <ng-container matColumnDef="serialNumber">
+            <th mat-header-cell *matHeaderCellDef> Serial Number </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.serialNumber}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="requestor">
+            <th mat-header-cell *matHeaderCellDef> Requestor </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.requestor}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="assignee">
+            <th mat-header-cell *matHeaderCellDef> Assignee </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.assignee}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="startDate">
+            <th mat-header-cell *matHeaderCellDef> Start Date </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.startDate | date:'short'}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="shortDesc">
+            <th mat-header-cell *matHeaderCellDef> Short desc. </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.shortDesc}} </td>
+        </ng-container>   
+    
+        <ng-container matColumnDef="priority">
+            <th mat-header-cell *matHeaderCellDef> Priority </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.priority}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef> State </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.state}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef> Category </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.category}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="updateDate">
+            <th mat-header-cell *matHeaderCellDef> Updated </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.updateDate | date:'short'}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="updatedBy">
+            <th mat-header-cell *matHeaderCellDef> Updated By </th>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.updatedBy}} </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let ticket; columns: columnsToDisplay" [routerLink]="['/ticket', ticket.serialNumber]"></tr>
+    </table>
+    <div class="center" *ngIf="tickets.data.length == 0 && tickets.filteredData.length == 0">
+        <h4>No items inside the list</h4>
+    </div>
+    <mat-paginator class="paginator" [pageSizeOptions]="[5,10,15]"></mat-paginator>
+</div>
 
-    <ng-container matColumnDef="requestor">
-        <th mat-header-cell *matHeaderCellDef> Requestor </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.requestor}} </td>
-    </ng-container>
 
-    <ng-container matColumnDef="assignee">
-        <th mat-header-cell *matHeaderCellDef> Assignee </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.assignee}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="startDate">
-        <th mat-header-cell *matHeaderCellDef> Start Date </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.startDate | date:'short'}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="shortDesc">
-        <th mat-header-cell *matHeaderCellDef> Short desc. </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.shortDesc}} </td>
-    </ng-container>   
-
-    <ng-container matColumnDef="priority">
-        <th mat-header-cell *matHeaderCellDef> Priority </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.priority}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef> State </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.state}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef> Category </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.category}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="updateDate">
-        <th mat-header-cell *matHeaderCellDef> Updated </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.updateDate | date:'short'}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="updatedBy">
-        <th mat-header-cell *matHeaderCellDef> Updated By </th>
-        <td mat-cell *matCellDef="let ticket"> {{ticket.updatedBy}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let ticket; columns: columnsToDisplay" [routerLink]="['/ticket', ticket.serialNumber]"></tr>
-</table>

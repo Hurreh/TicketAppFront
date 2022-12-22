@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Categories_DTO, Experts_DTO, Priority_DTO, States_DTO, TicketType_DTO } from 'src/app/models/dictionaries';
 import { Ticket_DTO } from 'src/app/models/ticket';
 import { User_DTO } from 'src/app/models/user';
@@ -21,10 +22,13 @@ export class TicketComponent implements OnInit {
               private dictionariesService: DictionariesService,
               private ticketsService: TicketsService,
               private ticketsDataService: TicketsDataService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar,
+              private router: Router) { }
               
 
   public currentRoute: string | null = '';
+  public requestorId: number | null = 0;
   public ticketControlForm!: FormGroup;
   private ticket: Ticket_DTO = {} as Ticket_DTO;
   
@@ -35,14 +39,17 @@ export class TicketComponent implements OnInit {
   public experts: Experts_DTO[] = [];
   public users: User_DTO[] = [];
 
+
   public canEdit: boolean = false;
 
   async ngOnInit() {
     this.initFormGroup();
     this.getCurrentRoute();
-    
+
     await this.loadData();
+    
   }
+ 
   initFormGroup() {
     this.ticketControlForm = this.ticketsService.initTicketFormGroup();
   }
@@ -73,28 +80,45 @@ export class TicketComponent implements OnInit {
       .getTicket(this.currentRoute!)
       .then(x=>{
         this.ticketControlForm.patchValue(x.result)
+        this.requestorId = x.result.requestor;
         this.ticketControlForm.controls['requestor'].setValue(this.users.find(y=>y.id == x.result.requestor)?.fullName ?? "")
-        
+        this.openSnackBar('Ticket loaded successfuly', 2000)
       })    
     }
+    this.setPermission()
     
   }
-
-  getCurrentRoute() {
-    this.route.paramMap.subscribe(params =>{
-      this.currentRoute = params.get('ticket')
+  setPermission() {
+    console.log(this.ticketControlForm)
+      this.ticketControlForm.enable();
       const userRole = localStorage.getItem('role')
       const userId = localStorage.getItem('userId')
-      this.ticketControlForm.reset();
-      if(this.currentRoute == 'new-ticket')
-        this.ticketControlForm.controls['requestor'].setValue(localStorage.getItem('name'))
-
-        if(userRole == '1')
+      if(userRole == '1' && this.currentRoute != 'new-ticket'){
           this.canEdit = false;
-        if((userRole == '2' && this.ticket.assignee == +userId!) || (userRole == '2' && this.ticket.assignee == null))
-          this.canEdit = true;
-
-        console.log(this.canEdit);
+          this.ticketControlForm.disable();
+          this.ticketControlForm.controls['notes'].enable();
+      }
+      else if((userRole == '2' && this.ticketControlForm.value['assignee'] == +userId!) || 
+              (userRole == '2' && (this.ticketControlForm.value['assignee'] == null || this.ticketControlForm.value['assignee'] == 0)) ||
+              (userRole == '1' && this.currentRoute == 'new-ticket')){
+        this.canEdit = true;
+      }
+      else{
+        this.canEdit = false;
+        this.ticketControlForm.disable();
+      }
+        
+        
+       
+  }
+  getCurrentRoute() {
+    this.route.paramMap.subscribe(params =>{
+      
+      this.currentRoute = params.get('ticket')
+      if(this.currentRoute == 'new-ticket'){
+        this.ticketControlForm.reset()
+        this.ticketControlForm.controls['requestor'].setValue(localStorage.getItem('name'))
+      }       
     })
     
     
@@ -104,13 +128,22 @@ export class TicketComponent implements OnInit {
       this.ticketControlForm.controls['startDate'].setValue(new Date())    
       this.ticket = Object.assign(this.ticket, this.ticketControlForm.value)     
       this.ticket.requestor = +localStorage.getItem('userId')!
-      this.ticketsDataService.saveTicket(this.ticket);
+      this.ticketsDataService.saveTicket(this.ticket).then(x=>{
+        this.openSnackBar('New ticket saved successfuly', 2000)
+        this.router.navigate(['tickets-list/requests'])
+      });
+
     }
   }
   updateTicket(){
     if(this.ticketControlForm.valid){ 
-      this.ticket = Object.assign(this.ticket, this.ticketControlForm.value)     
-      this.ticketsDataService.saveTicket(this.ticket);
+      this.ticket = Object.assign(this.ticket, this.ticketControlForm.value)   
+      this.ticket.updateDate = new Date()  
+      this.ticket.updatedBy = +localStorage.getItem('userId')!
+      this.ticket.requestor = this.requestorId ?? 0;
+      this.ticketsDataService.updateTicket(this.ticket).then(x=>{
+        this.openSnackBar('Ticket updated successfuly', 2000)
+      });
     }
   }
   //two exact same methods. Merge
@@ -118,18 +151,26 @@ export class TicketComponent implements OnInit {
     console.log('resolved')
       const resolveId = this.states.find(x=>x.stateName == 'Resolved')!.id ?? ''
       const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
-      //this.ticketsDataService.changeState(serialNumber, resolveId);
+      this.ticketsDataService.changeState(serialNumber, resolveId).then(x=>{
+        this.openSnackBar('Ticket state changed to resolved successfuly', 2000)
+        this.router.navigate(['tickets-list/requests'])
+      });
   }
   async cancelTicket(){
       console.log('canceled')
       const cancelId = this.states.find(x=>x.stateName == 'Canceled')!.id ?? ''
       const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
-      //this.ticketsDataService.changeState(serialNumber, cancelId);    
+      this.ticketsDataService.changeState(serialNumber, cancelId).then(x=>{
+        this.openSnackBar('Ticket state changed to canceled successfuly', 2000)
+        this.router.navigate(['tickets-list/requests'])
+      });    
   }
   saveNotes(){
     const notes = this.ticketControlForm.controls['notes'].value;
     const serialNumber = this.ticketControlForm.controls['serialNumber'].value;
-    this.ticketsDataService.updateNotes(serialNumber, notes);
+    this.ticketsDataService.updateNotes(serialNumber, notes).then(x=>{
+      this.openSnackBar('Notes updated successfuly', 2000)
+    });
   }
 
 
@@ -159,5 +200,8 @@ export class TicketComponent implements OnInit {
       } 
       
     })
+  }
+  openSnackBar(message: string, durationInMs: number) {
+    this.snackBar.open(message, '', {duration:durationInMs});
   }
 }

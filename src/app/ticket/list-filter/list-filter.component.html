@@ -53,13 +53,16 @@
     </div>
     <div class="filter-fields">
       <mat-form-field>
-        <mat-label>Submission Date Range</mat-label>
+        <mat-label>Submission Date Range</mat-label>  
         <mat-date-range-input [rangePicker]="startDatePicker">
           <input matStartDate placeholder="Start date" formControlName="startDateBegin">
           <input matEndDate placeholder="End date" formControlName="startDateEnd">
         </mat-date-range-input>
         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix>
+          <mat-icon matDatepickerToggleIcon (click)="clearStartDate()">clear</mat-icon>
+        </mat-datepicker-toggle>
         <mat-date-range-picker #startDatePicker></mat-date-range-picker>
       </mat-form-field>
 
@@ -71,6 +74,9 @@
         </mat-date-range-input>
         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="updateDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix>
+          <mat-icon matDatepickerToggleIcon (click)="clearUpdateDate()">clear</mat-icon>
+        </mat-datepicker-toggle>
         <mat-date-range-picker #updateDatePicker></mat-date-range-picker>
       </mat-form-field>
     </div>
