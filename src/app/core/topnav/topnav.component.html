@@ -13,6 +13,9 @@
                 <div *ngIf="loggedUser != ''">
                     <h5>Logged in as  {{loggedUser}}</h5>
                 </div>
+                <!-- Do (click) https://angular.io/guide/event-binding 
+                W największym skrócie (click) oznacza akcję kliknięcia po której zostaje uruchomiona metoda logOut()
+                wewnątrz komponentu -->
                 <button mat-button (click)="logOut()">
                     <mat-icon class="white">logout</mat-icon>
                 </button>

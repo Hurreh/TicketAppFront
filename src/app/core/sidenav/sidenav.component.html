@@ -1,11 +1,20 @@
+<!-- To jest WIDOK (View). Template to również poprawna nazwa -->
+<!-- Wszystkie elementy zaczynające się na 'mat' są opisane na stronie https://material.angular.io/components/categories -->
+<!-- ATRYBUT class wskazuje na styl zawarty wewnątrz pliku sidenav.component.scss -->
 <mat-sidenav-container class="main-container">
+    <!-- DYREKTYWA *ngIf decyduje kiedy dany fragment kodu powinien się renderować.
+    W tym przypadku będzie to gdy zmienna isLoggingIn przyjmie wartość true. 
+    Zapis *ngIf="isLoggingIn" oznacza to samo co *ngIf="isLoggingIn == true"  
+    Jest to zmienna znajdująca się w pliku sidenav.component.ts-->
     <mat-sidenav mode="side" opened *ngIf="isLoggingIn" class="side-nav">
-        <!-- ADD ROUTING -->
         <mat-list>
             <mat-list-item class="white">                 
                     User             
             </mat-list-item>
             <mat-list-item>
+                <!-- Dyrektywa router link wywołuje przekierowanie użytkownika do innej lokalizacji na stronie.
+                W tym przypadku nastąpi przekierowanie do lokalizacji /tickets-list z parametrem 'requests'
+                Praktycznie - http://localhost:4200/tickets-list/requests -->
                 <button mat-button [routerLink]="['/tickets-list', 'requests']">
                     My Requests
                 </button>
@@ -51,8 +60,11 @@
             
         </mat-list>
     </mat-sidenav>
+    <!-- Jest to w dokumentacji angular materials. Wewnątrz komponentu mat-sidenav-content powinno umieszczać się tą część strony gdzie będzie
+    działał użytkownik. 
+    Komponent <ng-content> wskazuje na to, gdzie wewnątrz tej strony powinien renderować się wstrzyknięty do niej inny komponent.
+    Patrz app.component.html -->   
     <mat-sidenav-content class="page-content">
-        <!-- Content projection. If we put any selector inside the app-sidenav selector it will be put in <ng-content> and not at the bottom of the template -->
         <ng-content></ng-content>
     </mat-sidenav-content>
 </mat-sidenav-container>

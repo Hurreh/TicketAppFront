@@ -1,9 +1,13 @@
+<!-- To jest komponent położony najwyżej w hierarchii. Wewnątrz niego umieszczamy selectory komponentów które chcemy wyświetlić na stronie -->
+
+
 <app-topnav></app-topnav>
-<app-sidenav>
-    <!-- Content projection is used to put loaded components from the <router-outlet> inside the <mat-sidenav-content>. 
-        This is achieved by placing <ng-content> selector inside the <app-sidenav>. The app then knows to put <router-outlet> selector where <ng-content> is.-->
-    <router-outlet>
-        
+<!-- Selector router-outlet zostanie umieszczony wewnątrz widoku app-sidenav w miejsce komponentu <ng-content>. sidenav.component.html -->
+<app-sidenav>    
+    <!-- Selector router-outlet nie wskazuje konkretnie na komponent a tzw. router. Jest to moduł zajmujący się przekierowaniami
+    i wyświetlaniem odpowiedniego w danym momencie komponentu. 
+    Patrz: app-routing.module.ts-->
+    <router-outlet>       
     </router-outlet>
 </app-sidenav>
 
