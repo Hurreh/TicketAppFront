@@ -42,6 +42,8 @@ export class TicketsService {
     
   }
 
+  //Tutaj definiujemy wartości przekazywane do filtra. W ten sposób gdyby było konieczne jego ponowne wykorzystanie,
+  //dodamy nowe pole w serwisie zamiast w każdym miejscu gdzie wystąpi filtr
   public filterValuesToStringify: filterValues = {
     serialNumber:   '',
     startDateBegin: '',
@@ -56,12 +58,16 @@ export class TicketsService {
     updatedBy:      ''
   }
 
+  //Obiekt do którego subskrybujemy i gdzie zostają przekazane wartości po których filtrujemy
   public filterValues = new BehaviorSubject<filterValues>(this.filterValuesToStringify);
 
+
+  
   setFilterValues(){
     this.filterValues.next(this.filterValuesToStringify);
   }
 
+  //Inicjalizacja formGroupa z wartościami wpisywanymi do ticketa. Przy wielokrotnym wykorzystaniu poprawiamy tutaj zamiast przy każdym wystąpieniu
   initTicketFormGroup():FormGroup{
     const ticket = this.fb.group({
       serialNumber: [''],
@@ -82,7 +88,8 @@ export class TicketsService {
     return ticket;
   }
 
-  
+  //Zamiana danych z backendu, które zawierają dane w postaci numerów id. (np zamiast Paweł Lubowiecki -> nr 1 w liście userów)
+  //na dane które można wyświetlić
   async convertDataToDisplay(tickets: Ticket_DTO[]) : Promise<Ticket[]>{
     await this.loadDictionaries();
     const ticketsToDisplay: Ticket[] = [];
@@ -90,7 +97,7 @@ export class TicketsService {
       const element = tickets[index];
       var ticketActual: Ticket = {} as Ticket;
       ticketActual = Object.assign(ticketActual, element)     
-      console.log(ticketActual)
+      //Wyszukiwanie w poszczególnych listach wartości odpowiadających danemu ID
       ticketActual.category = this.categories.find(x=>x.id == element.category)?.categoryName ?? "";
       ticketActual.priority = this.priorities.find(x=>x.severity == element.priority)?.priorityName ?? "";
       ticketActual.state = this.states.find(x=>x.id == element.state)?.stateName ?? "";

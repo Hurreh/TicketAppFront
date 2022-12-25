@@ -4,7 +4,7 @@ import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { LoginComponent } from './login/login.component';
 
 
-
+//Do wytłumaczenia na disco. Za dużo.
 @NgModule({
   imports: [RouterModule.forRoot([
     {path:'login', component:LoginComponent},

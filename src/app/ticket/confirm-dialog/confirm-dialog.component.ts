@@ -16,6 +16,7 @@ export class ConfirmDialogComponent implements OnInit {
   ngOnInit(): void {
     this.status = this.data['type'];
   }
+  //Przekazując do metody close wartość, przesyłamy ją do miejsca skąd dialog został otwarty
   closeDialog(confirm: boolean){
     this.dialogRef.close(confirm)
   }

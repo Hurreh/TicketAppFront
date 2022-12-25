@@ -74,7 +74,8 @@ export class TicketComponent implements OnInit {
       this.users = x.result;
     })
     
-    
+    //Jeżeli nie tworzymy nowego ticketu, pobieramy informacje o obecnie otwartym
+
     if(this.currentRoute != 'new-ticket'){
       await this.ticketsDataService
       .getTicket(this.currentRoute!)
@@ -88,48 +89,65 @@ export class TicketComponent implements OnInit {
     this.setPermission()
     
   }
+  //nadawanie uprawnień na podstawie roli użytkownika
   setPermission() {
-    console.log(this.ticketControlForm)
       this.ticketControlForm.enable();
       const userRole = localStorage.getItem('role')
       const userId = localStorage.getItem('userId')
+      //Jeżeli user jest zwykłym userem i nie tworzy ticketu, może tylko podejrzeć dane i dopisać coś do notatek 
       if(userRole == '1' && this.currentRoute != 'new-ticket'){
           this.canEdit = false;
           this.ticketControlForm.disable();
           this.ticketControlForm.controls['notes'].enable();
       }
+      //Jeżeli user jest ekspertem i ticket jest do niego przypisany 
+      //lub jest ekspertem i ticket nie ma przypisanego usera 
+      //lub nie jest ekspertem ale ticket jest nowy - to może edytować 
       else if((userRole == '2' && this.ticketControlForm.value['assignee'] == +userId!) || 
               (userRole == '2' && (this.ticketControlForm.value['assignee'] == null || this.ticketControlForm.value['assignee'] == 0)) ||
               (userRole == '1' && this.currentRoute == 'new-ticket')){
         this.canEdit = true;
       }
+      //Nieobsłużone warunki blokują ticket przed edycją
       else{
         this.canEdit = false;
         this.ticketControlForm.disable();
       }
         
         
-       
-  }
+    }
+
+  //pobieranie aktualnej ścieżki.
   getCurrentRoute() {
+    //Możemy zasubskrybować router i obserwować zmianę URL.
     this.route.paramMap.subscribe(params =>{
-      
+      //params w tym przypadku to numer ticketa. np w linku /ticket/INC001 - INC001 jest paramem
       this.currentRoute = params.get('ticket')
+      //jeżeli nowy ticket
       if(this.currentRoute == 'new-ticket'){
+        //wyczyść ticket
         this.ticketControlForm.reset()
+        //ustaw obecnie zalogowanego użytkowanika jako requestora
         this.ticketControlForm.controls['requestor'].setValue(localStorage.getItem('name'))
       }       
     })
     
     
   }
+  //Zapisywanie ticketu
   saveNewTicket(){
+    //jeżeli wszystkie validatory zostały spełnione
     if(this.ticketControlForm.valid){
-      this.ticketControlForm.controls['startDate'].setValue(new Date())    
+      //ustawiane wartości startDate na obecną datę
+      this.ticketControlForm.controls['startDate'].setValue(new Date())
+      //Przypisanie wartości formGroupa do obiektu klasy ticket. TypeScript postara się jak najlepiej dopasować pola z formularza do obiektu klasy    
       this.ticket = Object.assign(this.ticket, this.ticketControlForm.value)     
+
       this.ticket.requestor = +localStorage.getItem('userId')!
       this.ticketsDataService.saveTicket(this.ticket).then(x=>{
+        //Otwarcie snackbara
         this.openSnackBar('New ticket saved successfuly', 2000)
+        //Przekierowanie do poprzedniej strony
         this.router.navigate(['tickets-list/requests'])
       });
 
@@ -175,10 +193,12 @@ export class TicketComponent implements OnInit {
 
 
   openDialog(data: Object, type: string){
+    //Otwarcie dialogu potwierdzenia.
     this.dialog.open(ConfirmDialogComponent, {
       data: data,
       disableClose: true
     })
+    //x tutaj to wartość zwraca z okna dialogowego. Wartość true/false.
     .afterClosed().subscribe(x=>{
       if(x){
         switch (type) {
@@ -201,6 +221,7 @@ export class TicketComponent implements OnInit {
       
     })
   }
+  //metoda otwierająca snackBar z daną wiadomością. 
   openSnackBar(message: string, durationInMs: number) {
     this.snackBar.open(message, '', {duration:durationInMs});
   }

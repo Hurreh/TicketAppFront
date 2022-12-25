@@ -22,9 +22,10 @@ export class TicketListComponent implements OnInit, AfterViewInit {
   public listLoading: boolean = true;
   private currentRoute: string | null = '';
 
+  //dekorator @viewchild szuka w widoku elementu typu MatPaginator i nasłuchuje w nim zmian.
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-
+    //kolumny które zostaną wyświetlone w tabelce
   public columnsToDisplay = ['serialNumber','assignee', 'startDate', 'shortDesc', 'requestor', 'priority', 'state', 'category', 'updateDate', 'updatedBy']
 
   ngOnInit(): void {
@@ -32,9 +33,11 @@ export class TicketListComponent implements OnInit, AfterViewInit {
     this.getCurrentRoute();
     this.initFilter(); 
   }
+  //dodawanie to tabeli typu MatTable paginatora. Urok Angular Materials, wiele rzeczy nie trzeba robić ręcznie
   ngAfterViewInit(): void {
     this.tickets.paginator = this.paginator;
   }
+  //Ponieważ filtr jest w innym komponencie, poprzez serwis komunikujemy się z nim i pobieramy jego wartości
   initFilter() {
     this.ticketsService.filterValues.subscribe(x=>{
       const filterValues = x;
@@ -42,6 +45,7 @@ export class TicketListComponent implements OnInit, AfterViewInit {
       this.tickets.filterPredicate = this.createFilter()
     })
   }
+  //metoda filtrująca przekazywana do tabelki. Każda linia odpowiada wartości w filtrze.
   createFilter(): (data: Ticket, filter: string) => boolean {
     let filterFunction = (data: Ticket, filter: string): boolean => {
       let filterValues = JSON.parse(filter)
@@ -64,6 +68,7 @@ export class TicketListComponent implements OnInit, AfterViewInit {
     }
     return filterFunction;
   }
+  //Pobieramy różne zbiory ticketów w zależności do zakładki
   async loadData() {
     this.listLoading = true;
     this.listLoading = false;

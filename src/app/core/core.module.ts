@@ -11,7 +11,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { TopnavComponent } from './topnav/topnav.component';
 
-
+//Moduł core zawiera komponenty które są wyświetlane cały czas w trakcie życia aplikacji
+//W naszym przypadku jest to sidenav i topnav
 
 
 @NgModule({
